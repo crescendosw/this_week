@@ -30,22 +30,18 @@ def copy_song_to_this_week(church, prefix):
 	if not os.path.exists(this_week_dir):
 		os.makedirs(this_week_dir)
 	found = False
-	# for hymnal_dir in os.listdir(hymnals_dir):
-	# 	hymnal_dir_path = os.path.join(hymnals_dir, hymnal_dir)
-	# 	if os.path.isdir(hymnal_dir_path):
-	# 		for filename in os.listdir(hymnal_dir_path):
-	hymnal_dir = hymnals_dir
-	hymnal_dir_path = hymnal_dir
-	for filename in os.listdir(hymnal_dir_path):
-		filename_path = os.path.join(hymnal_dir_path, filename)
-		if filename.startswith(prefix) and os.path.isfile(filename_path):
-			found = True
-			print('Copying ' + filename)
-			this_week_song = os.path.join(this_week_dir, filename)
-			# import_path = os.path.join('..', 'hymnals', hymnal_dir, filename)
-			import_path = os.path.join('..', 'hymnals', filename)
-			with open(this_week_song, "w") as file:
-				file.write('import ' + import_path + os.linesep)
+	for hymnal_dir in os.listdir(hymnals_dir):
+		hymnal_dir_path = os.path.join(hymnals_dir, hymnal_dir)
+		if os.path.isdir(hymnal_dir_path):
+			for filename in os.listdir(hymnal_dir_path):
+				filename_path = os.path.join(hymnal_dir_path, filename)
+				if filename.startswith(prefix) and os.path.isfile(filename_path):
+					found = True
+					print('Copying ' + filename)
+					this_week_song = os.path.join(this_week_dir, filename)
+					import_path = os.path.join('..', 'hymnals', hymnal_dir, filename)
+					with open(this_week_song, "w") as file:
+						file.write('import ' + import_path + os.linesep)
 
 
 	if not found:
