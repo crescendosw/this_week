@@ -21,7 +21,7 @@ import glob
 import docopt
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
-
+ignored = ['.DS_Store', '.git', '.gitignore', '.idea', 'copyrights', 'tunes', 'content.json', 'this_week.py']
 
 def copy_song_to_this_week(church, prefix):
 	hymnals_dir = os.path.join(script_dir, '..', 'hymnals')
@@ -38,7 +38,12 @@ def copy_song_to_this_week(church, prefix):
 				if filename.startswith(prefix) and os.path.isfile(filename_path):
 					found = True
 					print('Copying ' + filename)
-					this_week_song = os.path.join(this_week_dir, filename)
+					song_number = 0
+					for file in os.listdir(this_week_dir):
+						if file not in ignored:
+							song_number += 1
+					song_letter = chr(ord('a') + song_number) + ' '
+					this_week_song = os.path.join(this_week_dir, song_letter + filename)
 					import_path = os.path.join('..', 'hymnals', hymnal_dir, filename)
 					with open(this_week_song, "w") as file:
 						file.write('import ' + import_path + os.linesep)
