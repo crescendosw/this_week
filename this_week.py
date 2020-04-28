@@ -35,7 +35,7 @@ def copy_song_to_this_week(church, prefix):
 		if os.path.isdir(hymnal_dir_path):
 			for filename in os.listdir(hymnal_dir_path):
 				filename_path = os.path.join(hymnal_dir_path, filename)
-				if filename.startswith(prefix) and os.path.isfile(filename_path):
+				if (filename.startswith(prefix) or filename.startswith('_' + prefix)) and os.path.isfile(filename_path):
 					found = True
 					print('Copying ' + filename)
 					song_number = 0
@@ -43,7 +43,7 @@ def copy_song_to_this_week(church, prefix):
 						if file not in ignored:
 							song_number += 1
 					song_letter = chr(ord('a') + song_number) + ' '
-					this_week_song = os.path.join(this_week_dir, song_letter + filename)
+					this_week_song = os.path.join(this_week_dir, song_letter + filename.replace('_', ''))
 					import_path = os.path.join('..', 'hymnals', hymnal_dir, filename)
 					with open(this_week_song, "w") as file:
 						file.write('import ' + import_path + os.linesep)
