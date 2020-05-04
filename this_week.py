@@ -44,7 +44,7 @@ def copy_song_to_this_week(church, prefix):
 							song_number += 1
 					song_letter = chr(ord('a') + song_number) + ' '
 					this_week_song = os.path.join(this_week_dir, song_letter + filename.replace('_', ''))
-					import_path = os.path.join('..', 'hymnals', hymnal_dir, filename)
+					import_path = os.path.join('../..', 'hymnals', hymnal_dir, filename)
 					with open(this_week_song, "w") as file:
 						file.write('import ' + import_path + os.linesep)
 
