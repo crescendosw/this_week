@@ -2,17 +2,18 @@
 '''Publish one or more songs to this week folder
 
 Usage:
-  this_week.py <song-prefix>...
-  this_week.py --clean
+  this_week.py <church> <song-prefix>...
+  this_week.py <church> --clean
 
 Arguments:
+  <church>           name of church
   <song-prefix>      prefix of song name to publish
 
 Options:
   --clean            clean out the specified church
 
 Example:
-  this_week.py 332
+  this_week.py 'Christ Church' 332
 '''
 import sys
 import os
@@ -25,8 +26,7 @@ ignored = ['.DS_Store', '.git', '.gitignore', '.idea', 'copyrights', 'tunes', 'c
 
 def copy_song_to_this_week(church, prefix):
 	hymnals_dir = os.path.join(script_dir, '..', 'hymnals')
-	# this_week_dir = os.path.join(script_dir, church)
-	this_week_dir = script_dir
+	this_week_dir = os.path.join(script_dir, church)
 	if not os.path.exists(this_week_dir):
 		os.makedirs(this_week_dir)
 	found = False
@@ -57,16 +57,17 @@ def main():
 	# church = arguments['<church>']
 	# if not os.path.isdir(church):
 	# 	raise RuntimeError('Church not found: ' + church)
-	church = ''
 	if arguments['--clean']:
-		# church_songs = os.path.join(script_dir, church, '*')
-		church_songs = os.path.join(script_dir, '*')
+		if arguments['<church>']:
+			church_songs = os.path.join(script_dir, arguments['<church>'], '*')
+		else:
+			church_songs = os.path.join(script_dir, '*')
 		for file in glob.glob(church_songs):
 			if not file.endswith('py'):
 				os.remove(file)
 	else:
 		for prefix in arguments['<song-prefix>']:
-			copy_song_to_this_week(church, prefix)
+			copy_song_to_this_week(arguments['<church>'], prefix)
 
 
 if __name__ == '__main__':
