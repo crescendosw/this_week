@@ -43,6 +43,13 @@ def copy_song_to_this_week(church, prefix):
 						if file not in ignored:
 							song_number += 1
 					song_letter = chr(ord('a') + song_number) + ' '
+					see_also = ''
+					with open(filename_path, 'r') as song_file:
+						for line in song_file.readlines():
+							if line.startswith('see_also'):
+								see_also = ' (' + line[-4:-1] + ') '
+						song_file.close()
+					filename = filename[:3] + see_also + filename[4:]
 					this_week_song = os.path.join(this_week_dir, song_letter + filename.replace('_', ''))
 					import_path = os.path.join('../..', 'hymnals', hymnal_dir, filename)
 					with open(this_week_song, "w") as file:
