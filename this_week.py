@@ -49,15 +49,16 @@ def copy_song_to_this_week(church, prefix):
 							if line.startswith('see_also'):
 								see_also = ' (' + line[-4:-1] + ') '
 						song_file.close()
-					filename = filename[:3] + see_also + filename[4:]
-					this_week_song = os.path.join(this_week_dir, song_letter + filename.replace('_', ''))
 					import_path = os.path.join('../..', 'hymnals', hymnal_dir, filename)
+					filename = filename.replace('_', '')
+					filename = filename[:3] + see_also + filename[4:]
+					this_week_song = os.path.join(this_week_dir, song_letter + filename)
 					with open(this_week_song, "w") as file:
 						file.write('import ' + import_path + os.linesep)
 
-
 	if not found:
 		raise RuntimeError('Song not found with prefix "' + prefix + '"')
+
 
 def main():
 	arguments = docopt.docopt(__doc__)
