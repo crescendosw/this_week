@@ -51,6 +51,7 @@ def copy_song_to_this_week(church, prefix):
 						song_file.close()
 					import_path = os.path.join('../..', 'hymnals', hymnal_dir, filename)
 					filename = filename.replace('_', '')
+
 					filename = filename[:3] + see_also + filename[4:]
 					this_week_song = os.path.join(this_week_dir, song_letter + filename)
 					with open(this_week_song, "w") as file:
