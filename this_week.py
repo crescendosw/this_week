@@ -24,8 +24,9 @@ import docopt
 script_dir = os.path.dirname(os.path.abspath(__file__))
 ignored = ['.DS_Store', '.git', '.gitignore', '.idea', 'copyrights', 'tunes', 'content.json', 'this_week.py']
 
-def copy_song_to_this_week(church, prefix):
-	hymnals_dir = os.path.join(script_dir, '..', 'hymnals')
+
+def copy_song_to_this_week(church, prefix, hymnal=''):
+	hymnals_dir = os.path.join(script_dir, '..', 'hymnals', hymnal)
 	this_week_dir = os.path.join(script_dir, church)
 	if not os.path.exists(this_week_dir):
 		os.makedirs(this_week_dir)
