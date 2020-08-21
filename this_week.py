@@ -26,37 +26,38 @@ ignored = ['.DS_Store', '.git', '.gitignore', '.idea', 'copyrights', 'tunes', 'c
 
 
 def copy_song_to_this_week(church, prefix, hymnal=''):
-	hymnals_dir = os.path.join(script_dir, '..', 'hymnals', hymnal)
+	hymnals_dir = os.path.join(script_dir, '..', 'hymnals')
 	this_week_dir = os.path.join(script_dir, church)
 	if not os.path.exists(this_week_dir):
 		os.makedirs(this_week_dir)
 	found = False
 	for hymnal_dir in os.listdir(hymnals_dir):
-		hymnal_dir_path = os.path.join(hymnals_dir, hymnal_dir)
-		if os.path.isdir(hymnal_dir_path):
-			for filename in os.listdir(hymnal_dir_path):
-				filename_path = os.path.join(hymnal_dir_path, filename)
-				if (filename.startswith(prefix) or filename.startswith('_' + prefix)) and os.path.isfile(filename_path):
-					found = True
-					print('Copying ' + filename)
-					song_number = 0
-					for file in os.listdir(this_week_dir):
-						if file not in ignored:
-							song_number += 1
-					song_letter = chr(ord('a') + song_number) + ' '
-					see_also = ''
-					with open(filename_path, 'r') as song_file:
-						for line in song_file.readlines():
-							if line.startswith('see_also'):
-								see_also = ' (' + line[-4:-1] + ') '
-						song_file.close()
-					import_path = os.path.join('../..', 'hymnals', hymnal_dir, filename)
-					filename = filename.replace('_', '')
+		if hymnal_dir == hymnal or not hymnal:
+			hymnal_dir_path = os.path.join(hymnals_dir, hymnal_dir)
+			if os.path.isdir(hymnal_dir_path):
+				for filename in os.listdir(hymnal_dir_path):
+					filename_path = os.path.join(hymnal_dir_path, filename)
+					if (filename.startswith(prefix) or filename.startswith('_' + prefix)) and os.path.isfile(filename_path):
+						found = True
+						print('Copying ' + filename)
+						song_number = 0
+						for file in os.listdir(this_week_dir):
+							if file not in ignored:
+								song_number += 1
+						song_letter = chr(ord('a') + song_number) + ' '
+						see_also = ''
+						with open(filename_path, 'r') as song_file:
+							for line in song_file.readlines():
+								if line.startswith('see_also'):
+									see_also = ' (' + line[-4:-1] + ') '
+							song_file.close()
+						import_path = os.path.join('../..', 'hymnals', hymnal_dir, filename)
+						filename = filename.replace('_', '')
 
-					filename = filename[:3] + see_also + filename[4:]
-					this_week_song = os.path.join(this_week_dir, song_letter + filename)
-					with open(this_week_song, "w") as file:
-						file.write('import ' + import_path + os.linesep)
+						filename = filename[:3] + see_also + filename[4:]
+						this_week_song = os.path.join(this_week_dir, song_letter + filename)
+						with open(this_week_song, "w") as file:
+							file.write('import ' + import_path + os.linesep)
 
 	if not found:
 		raise RuntimeError('Song not found with prefix "' + prefix + '"')
