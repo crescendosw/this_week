@@ -2,11 +2,12 @@
 '''Publish one or more songs to this week folder
 
 Usage:
-  this_week.py <church> <song-prefix>...
+  this_week.py <church> <hymnal> <song-prefix>...
   this_week.py <church> --clean
 
 Arguments:
   <church>           name of church
+  <hymnal>           name of hymnal
   <song-prefix>      prefix of song name to publish
 
 Options:
@@ -78,7 +79,7 @@ def main():
 				os.remove(file)
 	else:
 		for prefix in arguments['<song-prefix>']:
-			copy_song_to_this_week(arguments['<church>'], prefix)
+			copy_song_to_this_week(arguments['<church>'], prefix, hymnal=arguments['<hymnal>'])
 
 
 if __name__ == '__main__':
