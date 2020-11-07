@@ -4,17 +4,20 @@
 Usage:
   this_week.py <church> <hymnal> <song-prefix>...
   this_week.py <church> --clean
+  this_week.py <church> <date> --date
 
 Arguments:
   <church>           name of church
   <hymnal>           name of hymnal
   <song-prefix>      prefix of song name to publish
+  <date>             next sunday
 
 Options:
   --clean            clean out the specified church
+  --date             set date for specified church
 
 Example:
-  this_week.py 'Christ Church' 332
+  this_week.py 'Christ Church' 'Cantus Christi 2002' 332
 '''
 import sys
 import os
@@ -77,6 +80,8 @@ def main():
 		for file in glob.glob(church_songs):
 			if not file.endswith('py'):
 				os.remove(file)
+	elif arguments['--date']:
+		open(os.path.join(script_dir, 'timestamp'), 'r').write(arguments['<date>'])
 	else:
 		for prefix in arguments['<song-prefix>']:
 			copy_song_to_this_week(arguments['<church>'], prefix, hymnal=arguments['<hymnal>'])
