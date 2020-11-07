@@ -81,7 +81,7 @@ def main():
 			if not file.endswith('py'):
 				os.remove(file)
 	elif arguments['--date']:
-		open(os.path.join(script_dir, 'timestamp'), 'r').write(arguments['<date>'])
+		open(os.path.join(script_dir, arguments['<church>'], 'timestamp'), 'w').write(arguments['<date>'])
 	else:
 		for prefix in arguments['<song-prefix>']:
 			copy_song_to_this_week(arguments['<church>'], prefix, hymnal=arguments['<hymnal>'])
